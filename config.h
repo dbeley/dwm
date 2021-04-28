@@ -26,7 +26,7 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -48,11 +48,16 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-l", "10", "-m", dmenumon, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *mutecmd[] = { "~/scripts/pamixer.sh", "mute", NULL };
-static const char *volupcmd[] = { "~/scripts/pamixer.sh", "up", NULL };
-static const char *voldowncmd[] = { "~/scripts/pamixer.sh", "down", NULL };
+static const char *mutecmd[] = { "/home/david/scripts/pamixer.sh", "mute", NULL };
+static const char *volupcmd[] = { "/home/david/scripts/pamixer.sh", "up", NULL };
+static const char *voldowncmd[] = { "/home/david/scripts/pamixer.sh", "down", NULL };
+static const char *audiotogglecmd[] = { "mpc", "toggle", NULL };
+static const char *audionextcmd[] = { "mpc", "next", NULL };
+static const char *audioprevcmd[] = { "mpc", "prev", NULL };
+static const char *lockcmd[] = { "slock", NULL };
+static const char *scriptcmd[] = { "/home/david/scripts/display_config_dmenu.sh", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -91,15 +96,16 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
         /* custom keybindings */
         { 0,         XF86XK_AudioMute,         spawn, {.v = mutecmd } },
-        { 0,         XF86XK_AudioRaiseVolume,  spawn, {.v = volupcmd } }, 
-        { 0,         XF86XK_AudioLowerVolume,  spawn, {.v = voldowncmd } }, 
-        /*{ 0,         XF86XK_ScreenSaver,       spawn, {.v = lockcmd } },
-        { 0,         XF86XK_MonBrightnessUp,   spawn, {.v = brightnessupcmd } },
-        { 0,         XF86XK_MonBrightnessDown, spawn, {.v = brightnessdowncmd } },
+        { 0,         XF86XK_AudioRaiseVolume,  spawn, {.v = volupcmd } },
+        { 0,         XF86XK_AudioLowerVolume,  spawn, {.v = voldowncmd } },
         { 0,         XF86XK_AudioPlay,         spawn, {.v = audiotogglecmd } },
         { 0,         XF86XK_AudioPause,        spawn, {.v = audiotogglecmd } },
         { 0,         XF86XK_AudioNext,         spawn, {.v = audionextcmd } },
         { 0,         XF86XK_AudioPrev,         spawn, {.v = audioprevcmd } },
+        { 0,         XF86XK_ScreenSaver,       spawn, {.v = lockcmd } },
+        { MODKEY,         XK_u,         spawn, {.v = scriptcmd } },
+        /*{ 0,         XF86XK_MonBrightnessUp,   spawn, {.v = brightnessupcmd } },
+        { 0,         XF86XK_MonBrightnessDown, spawn, {.v = brightnessdowncmd } },
         { MODKEY,    XK_z,                     spawn, {.v = emacscmd } },*/
 };
 
@@ -119,4 +125,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
