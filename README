@@ -51,3 +51,4 @@ Patches
 -------
 
 git apply patch.diff
+patch --merge -i
