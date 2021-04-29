@@ -50,5 +50,5 @@ and (re)compiling the source code.
 Patches
 -------
 
-git apply patch.diff
-patch --merge -i
+    git apply patch.diff
+    patch --merge -i
