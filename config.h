@@ -58,6 +58,8 @@ static const char *audionextcmd[] = { "mpc", "next", NULL };
 static const char *audioprevcmd[] = { "mpc", "prev", NULL };
 static const char *lockcmd[] = { "slock", NULL };
 static const char *scriptcmd[] = { "/home/david/scripts/display_config_dmenu.sh", NULL };
+static const char *screencmd[] = { "/home/david/scripts/maim.sh", NULL };
+static const char *croppedscreencmd[] = { "/home/david/scripts/maim_cropped.sh", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -94,19 +96,21 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-        /* custom keybindings */
-        { 0,         XF86XK_AudioMute,         spawn, {.v = mutecmd } },
-        { 0,         XF86XK_AudioRaiseVolume,  spawn, {.v = volupcmd } },
-        { 0,         XF86XK_AudioLowerVolume,  spawn, {.v = voldowncmd } },
-        { 0,         XF86XK_AudioPlay,         spawn, {.v = audiotogglecmd } },
-        { 0,         XF86XK_AudioPause,        spawn, {.v = audiotogglecmd } },
-        { 0,         XF86XK_AudioNext,         spawn, {.v = audionextcmd } },
-        { 0,         XF86XK_AudioPrev,         spawn, {.v = audioprevcmd } },
-        { 0,         XF86XK_ScreenSaver,       spawn, {.v = lockcmd } },
-        { MODKEY,         XK_u,         spawn, {.v = scriptcmd } },
-        /*{ 0,         XF86XK_MonBrightnessUp,   spawn, {.v = brightnessupcmd } },
-        { 0,         XF86XK_MonBrightnessDown, spawn, {.v = brightnessdowncmd } },
-        { MODKEY,    XK_z,                     spawn, {.v = emacscmd } },*/
+    /* custom keybindings */
+    { 0,                            XF86XK_AudioMute,         spawn, {.v = mutecmd } },
+    { 0,                            XF86XK_AudioRaiseVolume,  spawn, {.v = volupcmd } },
+    { 0,                            XF86XK_AudioLowerVolume,  spawn, {.v = voldowncmd } },
+    { 0,                            XF86XK_AudioPlay,         spawn, {.v = audiotogglecmd } },
+    { 0,                            XF86XK_AudioPause,        spawn, {.v = audiotogglecmd } },
+    { 0,                            XF86XK_AudioNext,         spawn, {.v = audionextcmd } },
+    { 0,                            XF86XK_AudioPrev,         spawn, {.v = audioprevcmd } },
+    { 0,                            XF86XK_ScreenSaver,       spawn, {.v = lockcmd } },
+    { 0,                            XK_Print,                 spawn, {.v = screencmd } },
+    { ShiftMask,                    XK_Print,                 spawn, {.v = croppedscreencmd } },
+    { MODKEY,                       XK_u,                     spawn, {.v = scriptcmd } },
+    /*{ 0,                            XF86XK_MonBrightnessUp,   spawn, {.v = brightnessupcmd } },
+    { 0,                            XF86XK_MonBrightnessDown, spawn, {.v = brightnessdowncmd } },
+    { MODKEY,                       XK_z,                     spawn, {.v = emacscmd } },*/
 };
 
 /* button definitions */
