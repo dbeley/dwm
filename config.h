@@ -60,6 +60,13 @@ static const char *lockcmd[] = { "slock", NULL };
 static const char *scriptcmd[] = { "/home/david/scripts/display_config_dmenu.sh", NULL };
 static const char *screencmd[] = { "/home/david/scripts/maim.sh", NULL };
 static const char *croppedscreencmd[] = { "/home/david/scripts/maim_cropped.sh", NULL };
+static const char *cmd1[] = { "firefox", NULL };
+static const char *cmd2[] = { "st", NULL };
+static const char *cmd3[] = { "keepassxc", NULL };
+static const char *cmd4[] = { "libreoffice", NULL };
+static const char *cmd5[] = { "nextcloud", NULL };
+static const char *cmd6[] = { "steam", NULL };
+static const char *cmd7[] = { "gnome-system-monitor", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -74,7 +81,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
@@ -108,9 +115,15 @@ static Key keys[] = {
     { 0,                            XK_Print,                 spawn, {.v = screencmd } },
     { ShiftMask,                    XK_Print,                 spawn, {.v = croppedscreencmd } },
     { MODKEY,                       XK_u,                     spawn, {.v = scriptcmd } },
+    { MODKEY,                       XK_z,                     spawn, {.v = cmd1 } },
+    { MODKEY,                       XK_x,                     spawn, {.v = cmd2 } },
+    { MODKEY,                       XK_c,                     spawn, {.v = cmd3 } },
+    { MODKEY,                       XK_v,                     spawn, {.v = cmd4 } },
+    { MODKEY,                       XK_a,                     spawn, {.v = cmd5 } },
+    { MODKEY,                       XK_s,                     spawn, {.v = cmd6 } },
+    { MODKEY,                       XK_w,                     spawn, {.v = cmd7 } },
     /*{ 0,                            XF86XK_MonBrightnessUp,   spawn, {.v = brightnessupcmd } },
-    { 0,                            XF86XK_MonBrightnessDown, spawn, {.v = brightnessdowncmd } },
-    { MODKEY,                       XK_z,                     spawn, {.v = emacscmd } },*/
+    { 0,                            XF86XK_MonBrightnessDown, spawn, {.v = brightnessdowncmd } },*/
 };
 
 /* button definitions */
