@@ -62,6 +62,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 /* static const char *dmenucmd[] = { "dmenu_run", "-l", "10", "-m", dmenumon, NULL }; */
 static const char *dmenucmd[] = { "/home/david/scripts/dmenu_wal.sh", NULL };
+static const char *powercmd[] = { "/home/david/scripts/powermenu_dmenu.sh", NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *mutecmd[] = { "pamixer", "-t", NULL };
 static const char *volupcmd[] = { "pamixer", "-i", "1", NULL };
@@ -105,6 +106,7 @@ ResourcePref resources[] = {
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = powercmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -117,9 +119,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_f,      fullscreen,     {0} },
+	{ MODKEY,                       XK_f,      fullscreen,     {0} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
