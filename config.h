@@ -14,8 +14,8 @@ static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
 static char selfgcolor[]            = "#eeeeee";
-static char selbordercolor[]        = "#005577";
-static char selbgcolor[]            = "#005577";
+static char selbordercolor[]        = "#222222";
+static char selbgcolor[]            = "#222222";
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
@@ -30,9 +30,9 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class        instance    title       tags mask     isfloating   monitor */
+	{ "KeePassXC",  NULL,       NULL,       1 << 8,       0,           -1 },
+	{ "Nextcloud",  NULL,       NULL,       1 << 7,       1,           -1 },
 };
 
 /* layout(s) */
@@ -74,8 +74,8 @@ static const char *lockcmd[] = { "slock", NULL };
 static const char *scriptcmd[] = { "/home/david/scripts/display_config_dmenu.sh", NULL };
 static const char *screencmd[] = { "/home/david/scripts/maim.sh", NULL };
 static const char *croppedscreencmd[] = { "/home/david/scripts/maim_cropped.sh", NULL };
-static const char *cmdz[] = { "firefox", NULL };
-static const char *cmdx[] = { "st", NULL };
+static const char *cmdz[] = { "st", NULL };
+static const char *cmdx[] = { "firefox", NULL };
 static const char *cmdc[] = { "keepassxc", NULL };
 static const char *cmdv[] = { "libreoffice", NULL };
 static const char *cmda[] = { "emacs", NULL };
@@ -90,9 +90,9 @@ ResourcePref resources[] = {
 		{ "dmenufont",          STRING,  &dmenufont },
 		{ "color0",             STRING,  &normbgcolor },
 		{ "color0",             STRING,  &normbordercolor },
-		{ "color4",             STRING,  &normfgcolor },
-		{ "color4",             STRING,  &selbgcolor },
-		{ "color8",             STRING,  &selbordercolor },
+		{ "color7",             STRING,  &normfgcolor },
+		{ "color2",             STRING,  &selbgcolor },
+		{ "color2",             STRING,  &selbordercolor },
 		{ "color0",             STRING,  &selfgcolor },
 		{ "borderpx",          	INTEGER, &borderpx },
 		{ "snap",          		INTEGER, &snap },
