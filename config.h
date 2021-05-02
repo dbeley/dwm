@@ -60,9 +60,9 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-/* static const char *dmenucmd[] = { "dmenu_run", "-l", "10", "-m", dmenumon, NULL }; */
-static const char *dmenucmd[] = { "/home/david/scripts/dmenu_wal.sh", NULL };
-static const char *powercmd[] = { "/home/david/scripts/powermenu_dmenu.sh", NULL };
+/* static const char *dmenucmd[] = { "dmenu_run", "-i", "-l", "10", "-m", dmenumon, NULL }; */
+static const char *dmenucmd[] = { "/home/david/scripts/dmenu_wal.sh", dmenumon, NULL };
+static const char *powercmd[] = { "/home/david/scripts/powermenu_dmenu.sh", dmenumon, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *mutecmd[] = { "pamixer", "-t", NULL };
 static const char *volupcmd[] = { "pamixer", "-i", "1", NULL };
