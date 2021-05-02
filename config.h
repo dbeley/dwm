@@ -50,7 +50,7 @@ static const Rule rules[] = {
 	{ NULL,		   "spfm",      NULL,       SPTAG(1),	  1,           -1 },
 	{ NULL,		   "keepassxc", NULL,       SPTAG(2),	  1,           -1 },
 	{ "nextcloud", NULL,        NULL,       SPTAG(3),	  1,           -1 },
-	{ "mpv",       NULL,        NULL,       1 << 8,       1,           -1 },
+	{ "mpv",       NULL,        NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -82,9 +82,16 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "/home/david/scripts/dmenu_wal.sh", dmenumon, NULL };
 static const char *powercmd[] = { "/home/david/scripts/powermenu_dmenu.sh", dmenumon, NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *mutecmd[] = { "pamixer", "-t", NULL };
-static const char *volupcmd[] = { "pamixer", "-i", "1", NULL };
-static const char *voldowncmd[] = { "pamixer", "-d", "1", NULL };
+/* static const char *mutecmd[] = { "pamixer", "-t", NULL }; */
+/* static const char *volupcmd[] = { "pamixer", "-i", "1", NULL }; */
+/* static const char *volbigupcmd[] = { "pamixer", "-i", "1", NULL }; */
+/* static const char *voldowncmd[] = { "pamixer", "-d", "1", NULL }; */
+/* static const char *volbigdowncmd[] = { "pamixer", "-d", "1", NULL }; */
+static const char *mutecmd[] = { "/home/david/scripts/volume_pamixer.sh", "mute", NULL };
+static const char *volupcmd[] = { "/home/david/scripts/volume_pamixer.sh", "up", "1", NULL };
+static const char *volbigupcmd[] = { "/home/david/scripts/volume_pamixer.sh", "bigup", "1", NULL };
+static const char *voldowncmd[] = { "/home/david/scripts/volume_pamixer.sh", "down", "1", NULL };
+static const char *volbigdowncmd[] = { "/home/david/scripts/volume_pamixer.sh", "bigdown", "1", NULL };
 static const char *audiotogglecmd[] = { "mpc", "toggle", NULL };
 static const char *audionextcmd[] = { "mpc", "next", NULL };
 static const char *audioprevcmd[] = { "mpc", "prev", NULL };
@@ -94,7 +101,6 @@ static const char *screencmd[] = { "/home/david/scripts/maim.sh", NULL };
 static const char *croppedscreencmd[] = { "/home/david/scripts/maim_cropped.sh", NULL };
 static const char *cmdz[] = { "firefox", NULL };
 static const char *cmdx[] = { "st", NULL };
-/* static const char *cmdc[] = { "keepassxc", NULL }; */
 static const char *cmdv[] = { "libreoffice", NULL };
 static const char *cmda[] = { "emacs", NULL };
 static const char *cmds[] = { "steam", NULL };
@@ -161,7 +167,9 @@ static Key keys[] = {
     /* custom keybindings */
     { 0,                            XF86XK_AudioMute,          spawn, {.v = mutecmd } },
     { 0,                            XF86XK_AudioRaiseVolume,   spawn, {.v = volupcmd } },
+    { ShiftMask,                    XF86XK_AudioRaiseVolume,   spawn, {.v = volbigupcmd } },
     { 0,                            XF86XK_AudioLowerVolume,   spawn, {.v = voldowncmd } },
+    { ShiftMask,                    XF86XK_AudioLowerVolume,   spawn, {.v = volbigdowncmd } },
     { 0,                            XF86XK_AudioPlay,          spawn, {.v = audiotogglecmd } },
     { 0,                            XF86XK_AudioPause,         spawn, {.v = audiotogglecmd } },
     { 0,                            XF86XK_AudioNext,          spawn, {.v = audionextcmd } },
@@ -172,7 +180,6 @@ static Key keys[] = {
     { MODKEY,                       XK_u,                      spawn, {.v = scriptcmd } },
     { MODKEY,                       XK_z,                      spawn, {.v = cmdz } },
     { MODKEY,                       XK_x,                      spawn, {.v = cmdx } },
-    /* { MODKEY,                       XK_c,                      spawn, {.v = cmdc } }, */
     { MODKEY,                       XK_v,                      spawn, {.v = cmdv } },
     { MODKEY,                       XK_a,                      spawn, {.v = cmda } },
     { MODKEY,                       XK_s,                      spawn, {.v = cmds } },
