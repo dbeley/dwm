@@ -22,17 +22,35 @@ static char *colors[][3] = {
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
  };
 
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Sp;
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "nnn", NULL };
+const char *spcmd3[] = {"keepassxc", NULL };
+const char *spcmd4[] = {"nextcloud", NULL };
+static Sp scratchpads[] = {
+	/* name          cmd  */
+	{"spterm",       spcmd1},
+	{"spnnn",        spcmd2},
+	{"keepassxc",    spcmd3},
+	{"nextcloud",    spcmd4},
+};
+
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class        instance    title       tags mask     isfloating   monitor */
-	{ "KeePassXC",  NULL,       NULL,       1 << 8,       0,           -1 },
-	{ "Nextcloud",  NULL,       NULL,       1 << 7,       1,           -1 },
+	/* class       instance     title       tags mask     isfloating   monitor */
+	{ NULL,		   "spterm",    NULL,       SPTAG(0),     1,           -1 },
+	{ NULL,		   "spfm",      NULL,       SPTAG(1),	  1,           -1 },
+	{ NULL,		   "keepassxc", NULL,       SPTAG(2),	  1,           -1 },
+	{ "nextcloud", NULL,        NULL,       SPTAG(3),	  1,           -1 },
+	{ "mpv",       NULL,        NULL,       1 << 8,       1,           -1 },
 };
 
 /* layout(s) */
@@ -74,9 +92,9 @@ static const char *lockcmd[] = { "slock", NULL };
 static const char *scriptcmd[] = { "/home/david/scripts/display_config_dmenu.sh", NULL };
 static const char *screencmd[] = { "/home/david/scripts/maim.sh", NULL };
 static const char *croppedscreencmd[] = { "/home/david/scripts/maim_cropped.sh", NULL };
-static const char *cmdz[] = { "st", NULL };
-static const char *cmdx[] = { "firefox", NULL };
-static const char *cmdc[] = { "keepassxc", NULL };
+static const char *cmdz[] = { "firefox", NULL };
+static const char *cmdx[] = { "st", NULL };
+/* static const char *cmdc[] = { "keepassxc", NULL }; */
 static const char *cmdv[] = { "libreoffice", NULL };
 static const char *cmda[] = { "emacs", NULL };
 static const char *cmds[] = { "steam", NULL };
@@ -141,24 +159,28 @@ static Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
     /* custom keybindings */
-    { 0,                            XF86XK_AudioMute,         spawn, {.v = mutecmd } },
-    { 0,                            XF86XK_AudioRaiseVolume,  spawn, {.v = volupcmd } },
-    { 0,                            XF86XK_AudioLowerVolume,  spawn, {.v = voldowncmd } },
-    { 0,                            XF86XK_AudioPlay,         spawn, {.v = audiotogglecmd } },
-    { 0,                            XF86XK_AudioPause,        spawn, {.v = audiotogglecmd } },
-    { 0,                            XF86XK_AudioNext,         spawn, {.v = audionextcmd } },
-    { 0,                            XF86XK_AudioPrev,         spawn, {.v = audioprevcmd } },
-    { 0,                            XF86XK_ScreenSaver,       spawn, {.v = lockcmd } },
-    { 0,                            XK_Print,                 spawn, {.v = screencmd } },
-    { ShiftMask,                    XK_Print,                 spawn, {.v = croppedscreencmd } },
-    { MODKEY,                       XK_u,                     spawn, {.v = scriptcmd } },
-    { MODKEY,                       XK_z,                     spawn, {.v = cmdz } },
-    { MODKEY,                       XK_x,                     spawn, {.v = cmdx } },
-    { MODKEY,                       XK_c,                     spawn, {.v = cmdc } },
-    { MODKEY,                       XK_v,                     spawn, {.v = cmdv } },
-    { MODKEY,                       XK_a,                     spawn, {.v = cmda } },
-    { MODKEY,                       XK_s,                     spawn, {.v = cmds } },
-    { MODKEY,                       XK_w,                     spawn, {.v = cmdw } },
+    { 0,                            XF86XK_AudioMute,          spawn, {.v = mutecmd } },
+    { 0,                            XF86XK_AudioRaiseVolume,   spawn, {.v = volupcmd } },
+    { 0,                            XF86XK_AudioLowerVolume,   spawn, {.v = voldowncmd } },
+    { 0,                            XF86XK_AudioPlay,          spawn, {.v = audiotogglecmd } },
+    { 0,                            XF86XK_AudioPause,         spawn, {.v = audiotogglecmd } },
+    { 0,                            XF86XK_AudioNext,          spawn, {.v = audionextcmd } },
+    { 0,                            XF86XK_AudioPrev,          spawn, {.v = audioprevcmd } },
+    { 0,                            XF86XK_ScreenSaver,        spawn, {.v = lockcmd } },
+    { 0,                            XK_Print,                  spawn, {.v = screencmd } },
+    { ShiftMask,                    XK_Print,                  spawn, {.v = croppedscreencmd } },
+    { MODKEY,                       XK_u,                      spawn, {.v = scriptcmd } },
+    { MODKEY,                       XK_z,                      spawn, {.v = cmdz } },
+    { MODKEY,                       XK_x,                      spawn, {.v = cmdx } },
+    /* { MODKEY,                       XK_c,                      spawn, {.v = cmdc } }, */
+    { MODKEY,                       XK_v,                      spawn, {.v = cmdv } },
+    { MODKEY,                       XK_a,                      spawn, {.v = cmda } },
+    { MODKEY,                       XK_s,                      spawn, {.v = cmds } },
+    { MODKEY,                       XK_w,                      spawn, {.v = cmdw } },
+	{ MODKEY,            			XK_y,  	   togglescratch,  {.ui = 0 } },
+	{ MODKEY,            			XK_r,	   togglescratch,  {.ui = 1 } },
+	{ MODKEY,            			XK_c,	   togglescratch,  {.ui = 2 } },
+	{ MODKEY,            			XK_e,	   togglescratch,  {.ui = 3 } },
     /*{ 0,                            XF86XK_MonBrightnessUp,   spawn, {.v = brightnessupcmd } },
     { 0,                            XF86XK_MonBrightnessDown, spawn, {.v = brightnessdowncmd } },*/
 };
