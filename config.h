@@ -51,6 +51,7 @@ static const Rule rules[] = {
 	{ NULL,		   "keepassxc", NULL,       SPTAG(2),	  1,           -1 },
 	{ "nextcloud", NULL,        NULL,       SPTAG(3),	  1,           -1 },
 	{ "mpv",       NULL,        NULL,       0,            1,           -1 },
+	{ "feh",       NULL,        NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
