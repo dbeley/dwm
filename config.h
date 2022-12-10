@@ -6,9 +6,9 @@ static unsigned int borderpx  = 1;        /* border pixel of windows */
 static unsigned int snap      = 32;       /* snap pixel */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static char font[]          = "Iosevka Nerd Font:style=Italic:pixelsize=14:antialias=true:autohint=true";
+static char font[]          = "Iosevka Nerd Font:pixelsize=14:antialias=true:autohint=true";
 static const char *fonts[]          = { font };
-static char dmenufont[]       = "Iosevka Nerd Font:style=Italic:pixelsize=14:antialias=true:autohint=true";
+static char dmenufont[]       = "Iosevka Nerd Font:pixelsize=14:antialias=true:autohint=true";
 /* #include "/home/david/.cache/wal/colors-wal-dwm.h" */
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
