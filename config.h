@@ -48,7 +48,8 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-l", "10", "-m", dmenumon, NULL };
+/* static const char *dmenucmd[] = { "dmenu_run", "-l", "10", "-m", dmenumon, NULL }; */
+static const char *dmenucmd[] = { "/home/david/scripts/dmenu_wal.sh", NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *mutecmd[] = { "pamixer", "-t", NULL };
 static const char *volupcmd[] = { "pamixer", "-i", "1", NULL };
@@ -67,6 +68,27 @@ static const char *cmdv[] = { "libreoffice", NULL };
 static const char *cmda[] = { "emacs", NULL };
 static const char *cmds[] = { "steam", NULL };
 static const char *cmdw[] = { "gnome-system-monitor", NULL };
+
+/*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+		{ "font",               STRING,  &font },
+		{ "dmenufont",          STRING,  &dmenufont },
+		{ "color0",             STRING,  &normbgcolor },
+		{ "color0",             STRING,  &normbordercolor },
+		{ "color4",             STRING,  &normfgcolor },
+		{ "color4",             STRING,  &selbgcolor },
+		{ "color8",             STRING,  &selbordercolor },
+		{ "color0",             STRING,  &selfgcolor },
+		{ "borderpx",          	INTEGER, &borderpx },
+		{ "snap",          		INTEGER, &snap },
+		{ "showbar",          	INTEGER, &showbar },
+		{ "topbar",          	INTEGER, &topbar },
+		{ "nmaster",          	INTEGER, &nmaster },
+		{ "resizehints",       	INTEGER, &resizehints },
+		{ "mfact",      	 	FLOAT,   &mfact },
+};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
