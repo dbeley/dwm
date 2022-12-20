@@ -7,20 +7,21 @@ static unsigned int snap      = 32;       /* snap pixel */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
 static char font[]          = "Iosevka Nerd Font:pixelsize=14:antialias=true:autohint=true";
-static const char *fonts[]          = { font };
 static char dmenufont[]       = "Iosevka Nerd Font:pixelsize=14:antialias=true:autohint=true";
-/* #include "/home/david/.cache/wal/colors-wal-dwm.h" */
+static const char *fonts[]          = { font };
+#include "/home/david/.cache/wal/colors-wal-dwm.h"
+
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
 static char selfgcolor[]            = "#eeeeee";
 static char selbordercolor[]        = "#222222";
 static char selbgcolor[]            = "#222222";
-static char *colors[][3] = {
+/*static char *colors[][3] = {*/
        /*               fg           bg           border   */
-       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+       /*[SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
- };
+ };*/
 
 typedef struct {
 	const char *name;
@@ -40,6 +41,7 @@ static Sp scratchpads[] = {
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
@@ -58,6 +60,7 @@ static const Rule rules[] = {
 static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static int nmaster     = 1;    /* number of clients in master area */
 static int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+static int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -80,8 +83,8 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 /* static const char *dmenucmd[] = { "dmenu_run", "-i", "-l", "10", "-m", dmenumon, NULL }; */
-static const char *dmenucmd[] = { "/home/david/scripts/dmenu_wal.sh", dmenumon, NULL };
-static const char *powercmd[] = { "/home/david/scripts/powermenu_dmenu.sh", dmenumon, NULL };
+static const char *dmenucmd[] = { "/home/david/scripts/dmenu_wal.sh", NULL };
+static const char *powercmd[] = { "/home/david/scripts/powermenu_dmenu.sh", NULL };
 static const char *termcmd[]  = { "st", NULL };
 /* static const char *mutecmd[] = { "pamixer", "-t", NULL }; */
 /* static const char *volupcmd[] = { "pamixer", "-i", "1", NULL }; */
@@ -97,11 +100,12 @@ static const char *audiotogglecmd[] = { "mpc", "toggle", NULL };
 static const char *audionextcmd[] = { "mpc", "next", NULL };
 static const char *audioprevcmd[] = { "mpc", "prev", NULL };
 static const char *lockcmd[] = { "slock", NULL };
-static const char *scriptcmd[] = { "/home/david/scripts/display_config_dmenu.sh", dmenumon, NULL };
+static const char *scriptcmd[] = { "/home/david/scripts/display_config_dmenu.sh", NULL };
 static const char *screencmd[] = { "/home/david/scripts/maim.sh", NULL };
 static const char *croppedscreencmd[] = { "/home/david/scripts/maim_cropped.sh", NULL };
 static const char *cmdz[] = { "firefox", NULL };
 static const char *cmdx[] = { "st", NULL };
+static const char *cmdc[] = { "keepassxc", NULL };
 static const char *cmdv[] = { "libreoffice", NULL };
 static const char *cmda[] = { "emacs", NULL };
 static const char *cmds[] = { "steam", NULL };
@@ -131,7 +135,6 @@ ResourcePref resources[] = {
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = powercmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -181,6 +184,7 @@ static Key keys[] = {
     { MODKEY,                       XK_u,                      spawn, {.v = scriptcmd } },
     { MODKEY,                       XK_z,                      spawn, {.v = cmdz } },
     { MODKEY,                       XK_x,                      spawn, {.v = cmdx } },
+    { MODKEY,                       XK_c,                      spawn, {.v = cmdc } },
     { MODKEY,                       XK_v,                      spawn, {.v = cmdv } },
     { MODKEY,                       XK_a,                      spawn, {.v = cmda } },
     { MODKEY,                       XK_s,                      spawn, {.v = cmds } },
