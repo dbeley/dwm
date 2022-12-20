@@ -6,9 +6,37 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Iosevka Nerd Font:style=Italic:pixelsize=14:antialias=true:autohint=true" };
-static const char dmenufont[]       = "Iosevka Nerd Font:style=Italic:pixelsize=14:antialias=true:autohint=true";
+static const char *fonts[]          = { "Iosevka Nerd Font:pixelsize=14:antialias=true:autohint=true" };
+static const char dmenufont[]       = "Iosevka Nerd Font:pixelsize=14:antialias=true:autohint=true";
 #include "/home/david/.cache/wal/colors-wal-dwm.h"
+
+static char normbgcolor[]           = "#222222";
+static char normbordercolor[]       = "#444444";
+static char normfgcolor[]           = "#bbbbbb";
+static char selfgcolor[]            = "#eeeeee";
+static char selbordercolor[]        = "#222222";
+static char selbgcolor[]            = "#222222";
+static char *colors[][3] = {
+       /*               fg           bg           border   */
+       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+       [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+ };
+
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Sp;
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "nnn", NULL };
+const char *spcmd3[] = {"keepassxc", NULL };
+const char *spcmd4[] = {"nextcloud", NULL };
+static Sp scratchpads[] = {
+	/* name          cmd  */
+	{"spterm",       spcmd1},
+	{"spnnn",        spcmd2},
+	{"keepassxc",    spcmd3},
+	{"nextcloud",    spcmd4},
+};
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -18,15 +46,19 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+	/* class       instance     title       tags mask     isfloating   monitor */
+	{ NULL,		   "spterm",    NULL,       SPTAG(0),     1,           -1 },
+	{ NULL,		   "spfm",      NULL,       SPTAG(1),	  1,           -1 },
+	{ NULL,		   "keepassxc", NULL,       SPTAG(2),	  1,           -1 },
+	{ "nextcloud", NULL,        NULL,       SPTAG(3),	  1,           -1 },
+	{ "mpv",       NULL,        NULL,       0,            1,           -1 },
+	{ "feh",       NULL,        NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static int nmaster     = 1;    /* number of clients in master area */
+static int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -48,12 +80,20 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-/* static const char *dmenucmd[] = { "dmenu_run", "-l", "10", "-m", dmenumon, NULL }; */
-static const char *dmenucmd[] = { "/home/david/scripts/dmenu_wal.sh", NULL };
+/* static const char *dmenucmd[] = { "dmenu_run", "-i", "-l", "10", "-m", dmenumon, NULL }; */
+static const char *dmenucmd[] = { "/home/david/scripts/dmenu_wal.sh",, NULL };
+static const char *powercmd[] = { "/home/david/scripts/powermenu_dmenu.sh", NULL };
 static const char *termcmd[]  = { "st", NULL };
-static const char *mutecmd[] = { "pamixer", "-t", NULL };
-static const char *volupcmd[] = { "pamixer", "-i", "1", NULL };
-static const char *voldowncmd[] = { "pamixer", "-d", "1", NULL };
+/* static const char *mutecmd[] = { "pamixer", "-t", NULL }; */
+/* static const char *volupcmd[] = { "pamixer", "-i", "1", NULL }; */
+/* static const char *volbigupcmd[] = { "pamixer", "-i", "1", NULL }; */
+/* static const char *voldowncmd[] = { "pamixer", "-d", "1", NULL }; */
+/* static const char *volbigdowncmd[] = { "pamixer", "-d", "1", NULL }; */
+static const char *mutecmd[] = { "/home/david/scripts/volume_pamixer.sh", "mute", NULL };
+static const char *volupcmd[] = { "/home/david/scripts/volume_pamixer.sh", "up", "1", NULL };
+static const char *volbigupcmd[] = { "/home/david/scripts/volume_pamixer.sh", "bigup", "1", NULL };
+static const char *voldowncmd[] = { "/home/david/scripts/volume_pamixer.sh", "down", "1", NULL };
+static const char *volbigdowncmd[] = { "/home/david/scripts/volume_pamixer.sh", "bigdown", "1", NULL };
 static const char *audiotogglecmd[] = { "mpc", "toggle", NULL };
 static const char *audionextcmd[] = { "mpc", "next", NULL };
 static const char *audioprevcmd[] = { "mpc", "prev", NULL };
@@ -77,9 +117,9 @@ ResourcePref resources[] = {
 		{ "dmenufont",          STRING,  &dmenufont },
 		{ "color0",             STRING,  &normbgcolor },
 		{ "color0",             STRING,  &normbordercolor },
-		{ "color4",             STRING,  &normfgcolor },
-		{ "color4",             STRING,  &selbgcolor },
-		{ "color8",             STRING,  &selbordercolor },
+		{ "color7",             STRING,  &normfgcolor },
+		{ "color2",             STRING,  &selbgcolor },
+		{ "color2",             STRING,  &selbordercolor },
 		{ "color0",             STRING,  &selfgcolor },
 		{ "borderpx",          	INTEGER, &borderpx },
 		{ "snap",          		INTEGER, &snap },
@@ -105,8 +145,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_f,      fullscreen,     {0} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -126,24 +167,29 @@ static Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
     /* custom keybindings */
-    { 0,                            XF86XK_AudioMute,         spawn, {.v = mutecmd } },
-    { 0,                            XF86XK_AudioRaiseVolume,  spawn, {.v = volupcmd } },
-    { 0,                            XF86XK_AudioLowerVolume,  spawn, {.v = voldowncmd } },
-    { 0,                            XF86XK_AudioPlay,         spawn, {.v = audiotogglecmd } },
-    { 0,                            XF86XK_AudioPause,        spawn, {.v = audiotogglecmd } },
-    { 0,                            XF86XK_AudioNext,         spawn, {.v = audionextcmd } },
-    { 0,                            XF86XK_AudioPrev,         spawn, {.v = audioprevcmd } },
-    { 0,                            XF86XK_ScreenSaver,       spawn, {.v = lockcmd } },
-    { 0,                            XK_Print,                 spawn, {.v = screencmd } },
-    { ShiftMask,                    XK_Print,                 spawn, {.v = croppedscreencmd } },
-    { MODKEY,                       XK_u,                     spawn, {.v = scriptcmd } },
-    { MODKEY,                       XK_z,                     spawn, {.v = cmdz } },
-    { MODKEY,                       XK_x,                     spawn, {.v = cmdx } },
-    { MODKEY,                       XK_c,                     spawn, {.v = cmdc } },
-    { MODKEY,                       XK_v,                     spawn, {.v = cmdv } },
-    { MODKEY,                       XK_a,                     spawn, {.v = cmda } },
-    { MODKEY,                       XK_s,                     spawn, {.v = cmds } },
-    { MODKEY,                       XK_w,                     spawn, {.v = cmdw } },
+    { 0,                            XF86XK_AudioMute,          spawn, {.v = mutecmd } },
+    { 0,                            XF86XK_AudioRaiseVolume,   spawn, {.v = volupcmd } },
+    { ShiftMask,                    XF86XK_AudioRaiseVolume,   spawn, {.v = volbigupcmd } },
+    { 0,                            XF86XK_AudioLowerVolume,   spawn, {.v = voldowncmd } },
+    { ShiftMask,                    XF86XK_AudioLowerVolume,   spawn, {.v = volbigdowncmd } },
+    { 0,                            XF86XK_AudioPlay,          spawn, {.v = audiotogglecmd } },
+    { 0,                            XF86XK_AudioPause,         spawn, {.v = audiotogglecmd } },
+    { 0,                            XF86XK_AudioNext,          spawn, {.v = audionextcmd } },
+    { 0,                            XF86XK_AudioPrev,          spawn, {.v = audioprevcmd } },
+    { 0,                            XF86XK_ScreenSaver,        spawn, {.v = lockcmd } },
+    { 0,                            XK_Print,                  spawn, {.v = screencmd } },
+    { ShiftMask,                    XK_Print,                  spawn, {.v = croppedscreencmd } },
+    { MODKEY,                       XK_u,                      spawn, {.v = scriptcmd } },
+    { MODKEY,                       XK_z,                      spawn, {.v = cmdz } },
+    { MODKEY,                       XK_x,                      spawn, {.v = cmdx } },
+    { MODKEY,                       XK_v,                      spawn, {.v = cmdv } },
+    { MODKEY,                       XK_a,                      spawn, {.v = cmda } },
+    { MODKEY,                       XK_s,                      spawn, {.v = cmds } },
+    { MODKEY,                       XK_w,                      spawn, {.v = cmdw } },
+	{ MODKEY,            			XK_y,  	   togglescratch,  {.ui = 0 } },
+	{ MODKEY,            			XK_r,	   togglescratch,  {.ui = 1 } },
+	{ MODKEY,            			XK_c,	   togglescratch,  {.ui = 2 } },
+	{ MODKEY,            			XK_e,	   togglescratch,  {.ui = 3 } },
     /*{ 0,                            XF86XK_MonBrightnessUp,   spawn, {.v = brightnessupcmd } },
     { 0,                            XF86XK_MonBrightnessDown, spawn, {.v = brightnessdowncmd } },*/
 };
